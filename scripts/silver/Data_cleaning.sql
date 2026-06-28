@@ -29,3 +29,9 @@ where prd_nm!=TRIM(prd_nm)
 select *,
 LEAD(prd_start_dt) over (partition by prd_key order by prd_start_dt)-1 as prd_end_dt
 from bronze.crm_prd_info;
+
+--Validating the sales values with quantity and price 
+select * from bronze.crm_sales_details where
+sls_sales !=(sls_quantity*sls_price)
+or sls_sales is null or sls_quantity is null or sls_price is null
+or sls_sales<=0 or sls_quantity <=0 or sls_price <=0
